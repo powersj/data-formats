@@ -4,7 +4,7 @@ mod json;
 mod line_protocol;
 mod toolbar;
 
-pub const APP_NAME: &str = "formats";
+pub const APP_NAME: &str = "data formats";
 pub const TXT_WELCOME: &str = "Welcome!";
 pub const VIEW_LP: &str = "line protocol";
 pub const VIEW_JSON: &str = "json";
@@ -25,6 +25,8 @@ impl Default for Panel {
 #[derive(Default)]
 struct MyApp {
     open_panel: Panel,
+    json_view: json::JSONView,
+    line_protocol_view: line_protocol::LineProtocolView,
 }
 
 impl eframe::App for MyApp {
@@ -42,8 +44,12 @@ impl eframe::App for MyApp {
         egui::CentralPanel::default().show(ctx, |ui| {
             match self.open_panel {
                 Panel::Default => { ui.heading(TXT_WELCOME); }
-                Panel::JSON => { json::JSONView::ui(ui); }
-                Panel::LineProtocol => { line_protocol::LineProtocolView::ui(ui); }
+                Panel::JSON => {
+                    json::JSONView::ui(&mut self.json_view, ui);
+                }
+                Panel::LineProtocol => {
+                    line_protocol::LineProtocolView::ui(&mut self.line_protocol_view, ui);
+                }
             }
         });
     }
