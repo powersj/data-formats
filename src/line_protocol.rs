@@ -1,21 +1,40 @@
-use egui;
-
+#[derive(Default)]
 pub struct LineProtocolView {
-    code: String,
-}
-
-impl Default for LineProtocolView {
-    fn default() -> Self {
-        Self {
-            code: String::new().into(),
-        }
-    }
+    input: String,
+    error: String,
 }
 
 impl LineProtocolView {
     pub fn ui(&mut self, ui: &mut egui::Ui) {
-        let Self { code } = self;
-        ui.heading("Enter line protocol below:");
-        ui.add(egui::TextEdit::multiline(code).code_editor());
+        let Self { input, error } = self;
+
+        ui.horizontal(|ui| {
+            ui.heading("Enter line protocol below:");
+            if ui.button("Validate").clicked() {
+                *error = parse_line_protocol(input);
+            }
+        });
+        ui.label(error.to_string());
+        ui.add(
+            egui::TextEdit::multiline(input)
+                .code_editor()
+                .desired_width(ui.available_width())
+                .desired_rows(40)
+                .font(eframe::egui::TextStyle::Monospace)
+        );
+    }
+}
+
+
+fn parse_line_protocol(lines: &str) -> String {
+    let mut errors: Vec<String> = vec![];
+    let _lines: Vec<_> = influxdb_line_protocol::parse_lines(lines)
+        .filter_map(|r| r.map_err(|e| errors.push(e.to_string())).ok())
+        .collect();
+
+    if errors.is_empty() {
+        String::new()
+    } else {
+        errors[0].to_string()
     }
 }

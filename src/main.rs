@@ -4,15 +4,15 @@ mod json;
 mod line_protocol;
 mod toolbar;
 
-pub const APP_NAME: &str = "data formats";
+pub const APP_NAME: &str = "formats";
 pub const TXT_WELCOME: &str = "Welcome!";
-pub const VIEW_LP: &str = "line protocol";
-pub const VIEW_JSON: &str = "json";
+pub const VIEW_LP: &str   = "line protocol";
+pub const VIEW_JSON: &str = "json         ";
 
 #[derive(PartialEq, Eq)]
 enum Panel {
     Default,
-    JSON,
+    Json,
     LineProtocol,
 }
 
@@ -33,18 +33,18 @@ impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         ctx.set_pixels_per_point(1.5);
         egui::TopBottomPanel::top("menu").show(ctx, |ui| {
-            toolbar::load(APP_NAME, ui);
+           toolbar::load(ctx, APP_NAME, ui);
         });
         egui::SidePanel::left("side").show(ctx, |ui| {
             ui.vertical(|ui| {
-                ui.selectable_value(&mut self.open_panel, Panel::JSON, VIEW_JSON);
+                ui.selectable_value(&mut self.open_panel, Panel::Json, VIEW_JSON);
                 ui.selectable_value(&mut self.open_panel, Panel::LineProtocol, VIEW_LP);
             });
         });
         egui::CentralPanel::default().show(ctx, |ui| {
             match self.open_panel {
                 Panel::Default => { ui.heading(TXT_WELCOME); }
-                Panel::JSON => {
+                Panel::Json => {
                     json::JSONView::ui(&mut self.json_view, ui);
                 }
                 Panel::LineProtocol => {
