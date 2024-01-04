@@ -1,8 +1,5 @@
 # devdex
 
-## Notes
+Quick demo of using egui to validate JSON and line protocol in rust!
 
-All the https://www.egui.rs/ examples are in:
-
-    https://github.com/emilk/egui/tree/master/crates/egui_demo_lib/src/demo
-
+##

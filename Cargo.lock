@@ -1295,9 +1295,9 @@ dependencies = [
 
 [[package]]
 name = "influxdb-line-protocol"
-version = "1.0.0"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1192416847e724d001c1f410cf348f27978a50b30f3473afbf73062cada2697a"
+checksum = "22fa7ee6be451ea0b1912b962c91c8380835e97cf1584a77e18264e908448dcb"
 dependencies = [
  "bytes",
  "log",

@@ -9,17 +9,17 @@ impl JSONView {
     pub fn ui(&mut self, ui: &mut egui::Ui) {
         let Self { input, error } = self;
         ui.horizontal(|ui| {
-            ui.heading("Enter JSON to format and validate below:");
-            if ui.button("Format").clicked() {
+            if ui.button("analyze").clicked() {
                 let result = parse_json(input);
                 match result {
                     Ok(_) => {
                         *input = pretty_json(input);
-                        *error = String::new();
+                        *error = "valid JSON!".to_string();
                     },
                     Err(e) => *error = e.to_string(),
                  }
             }
+            ui.heading("<-- Press to validate and format JSON");
         });
         ui.label(error.to_string());
         ui.add(

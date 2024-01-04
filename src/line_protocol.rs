@@ -9,10 +9,10 @@ impl LineProtocolView {
         let Self { input, error } = self;
 
         ui.horizontal(|ui| {
-            ui.heading("Enter line protocol below:");
-            if ui.button("Validate").clicked() {
+            if ui.button("analyze").clicked() {
                 *error = parse_line_protocol(input);
             }
+            ui.heading("<-- Press to validate and format line protocol");
         });
         ui.label(error.to_string());
         ui.add(
@@ -33,7 +33,7 @@ fn parse_line_protocol(lines: &str) -> String {
         .collect();
 
     if errors.is_empty() {
-        String::new()
+        "valid line protocol!".to_string()
     } else {
         errors[0].to_string()
     }
